@@ -1,0 +1,20 @@
+{
+  "briefs":[
+      {
+          "id": 1,
+          "titre": "Application Mobile SimplonLine",
+          "Contexte": "La société Maghreb Coding school souhaite mettre en place une application mobile afin de facilitez l'acces au resources (brief, rendu, competences)",
+          "deadline": "27/02/2023",
+          "date": "23/02/2023",
+          "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fflyclipart.com%2Fthumb2%2Fflutter-160860.png&f=1&nofb=1&ipt=7375bc0d180d73e523b3bd68cbded35080d3f07faa4b5b772fc524e84db7e8d5&ipo=images"
+      },
+      {
+          "id": 2,
+          "titre": "MyPet Mobile",
+          "Contexte": "ne application web d'adoption d'animaux (oiseau, chien, chat) pour les personnes qui ont des engagements et ne peuvent pas porter sans leur animal de compagnie.",
+          "deadline": "03/03/2023",
+          "date": "27/02/2023",
+          "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.pngaaa.com%2F599%2F467599-middle.png&f=1&nofb=1&ipt=b2df0a2bf7e681634a3d6b2321b868189d484105cd3ed3f1c456a3538f20628e&ipo=images"
+      }
+  ]
+}
