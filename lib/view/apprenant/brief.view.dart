@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:simplonmobile/entity/brief.dart';
-import 'package:simplonmobile/utils/global.colors.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:convert';
+import 'package:simplonmobile/models/brief.model.dart';
+import 'package:flutter/services.dart' as rootBundle;
 
 class BriefView extends StatefulWidget {
   const BriefView({super.key});
@@ -13,102 +13,118 @@ class BriefView extends StatefulWidget {
 }
 
 class _BriefViewState extends State<BriefView> {
-  // Future<List<Brief>> fetchBriefs() async {
-  //   try {
-  //     var url = Uri.parse("http://192.168.9.79:3000/briefs");
-  //     var response = await http.get(url);
-  //     var briefs = <Brief>[];
-  //     if (response.statusCode == 200) {
-  //       var responseBody = response.body;
-  //       // print(responseBody);
-  //       if (responseBody != null) {
-  //         // Check for null value
-  //         var briefsJson = jsonDecode(responseBody);
-  //         print("--------${briefsJson}");
-  //         for (var briefJson in briefsJson) {
-  //           var brief = Brief.fromJson(briefJson);
-  //           // briefs.add(brief);
-  //           print("--------${brief}");
-  //         }
-  //       }
-  //       return briefs;
-  //     } else {
-  //       throw Exception('Failed to fetch briefs');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Failed to fetch briefs: $e');
-  //   }
-  // }
-  static Future<List<Brief>> fetchBriefs() async {
-    var url = Uri.parse("http://192.168.9.79:3000/briefs");
-    const Map<String, String> headers = {"Content-Type": "application/json"};
-    http.Response response = await http.get(
-      url,
-      headers: headers,
-    );
-    print(response.body);
-    List responseList = jsonDecode(response.body);
-    List<Brief> briefs = [];
-    for (Map briefMap in responseList) {
-      print(briefMap);
-      Brief brief = Brief.fromMap(briefMap);
-      briefs.add(brief);
-    }
-    return briefs;
+  Future<List<BriefModel>> fetchUsers() async {
+    final data = await rootBundle.rootBundle.loadString('db/brief.json');
+    final list = json.decode(data) as List<dynamic>;
+    final users =
+        list.map((dynamic item) => BriefModel.fromJson(item)).toList();
+    return users;
+  }
+
+  @override
+  void initState() {
+    fetchUsers();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Briefs'),
-      ),
-      body: FutureBuilder(
-        future: fetchBriefs(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var briefs = snapshot.data as List<Brief>;
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                var brief = briefs[index];
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 32.0, bottom: 32, left: 16.0, right: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          brief.titre,
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
+        body: FutureBuilder(
+      future: fetchUsers(),
+      builder: (context, AsyncSnapshot<List<BriefModel>> snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 8.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      height: 150.0,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue, Colors.purple],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        Text(
-                          brief.contexte,
-                          style: TextStyle(color: GlobalColors.textColor),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16.0),
                         ),
-                        Text(
-                          brief.deadline.toString(),
-                          style: TextStyle(color: GlobalColors.textColor),
+                      ),
+                      child: Center(
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            snapshot.data![index].image.toString(),
+                          ),
+                          radius: 50.0,
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                );
-              },
-              itemCount: briefs.length,
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Failed to fetch briefs: ${snapshot.error}'),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            snapshot.data![index].titre.toString(),
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            children: [
+                              Icon(Icons.phone, size: 16.0, color: Colors.grey),
+                              SizedBox(width: 8.0),
+                              Text(
+                                '+1 123 456 7890',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            children: [
+                              Icon(Icons.group, size: 16.0, color: Colors.grey),
+                              SizedBox(width: 8.0),
+                              Text(
+                                snapshot.data![index].deadline.toString(),
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            children: [
+                              Icon(Icons.email, size: 16.0, color: Colors.grey),
+                              SizedBox(width: 8.0),
+                              Text(
+                                snapshot.data![index].contexte.toString(),
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    ));
   }
 }
