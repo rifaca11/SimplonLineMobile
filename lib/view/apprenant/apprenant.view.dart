@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
-import 'package:simplonmobile/models/brief.model.dart';
+import 'package:simplonmobile/models/Apprenant.model.dart';
 import 'package:flutter/services.dart' as rootBundle;
 
 import '../../utils/global.colors.dart';
 import '../../utils/global.size.dart';
 
-class BriefView extends StatefulWidget {
-  const BriefView({super.key});
+class ApprenantView extends StatefulWidget {
+  const ApprenantView({super.key});
 
   @override
-  State<BriefView> createState() => _BriefViewState();
+  State<ApprenantView> createState() => _ApprenantViewState();
 }
 
-class _BriefViewState extends State<BriefView> {
-  Future<List<BriefModel>> fetchUsers() async {
-    final data = await rootBundle.rootBundle.loadString('db/brief.json');
+class _ApprenantViewState extends State<ApprenantView> {
+  Future<List<ApprenantModel>> fetchUsers() async {
+    final data = await rootBundle.rootBundle.loadString('db/apprenant.json');
     final list = json.decode(data) as List<dynamic>;
     final users =
-        list.map((dynamic item) => BriefModel.fromJson(item)).toList();
+        list.map((dynamic item) => ApprenantModel.fromJson(item)).toList();
     return users;
   }
 
@@ -35,12 +35,12 @@ class _BriefViewState extends State<BriefView> {
     GlobalSize().init(context);
     return Scaffold(
       appBar: new AppBar(
-        title: Text('Briefs'),
+        title: Text('Apprenants'),
         backgroundColor: GlobalColors.mainColor,
       ),
         body: FutureBuilder(
       future: fetchUsers(),
-      builder: (context, AsyncSnapshot<List<BriefModel>> snapshot) {
+      builder: (context, AsyncSnapshot<List<ApprenantModel>> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
             itemCount: snapshot.data!.length,
@@ -82,7 +82,7 @@ class _BriefViewState extends State<BriefView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            snapshot.data![index].titre.toString(),
+                            snapshot.data![index].name.toString(),
                             style: TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
@@ -94,7 +94,7 @@ class _BriefViewState extends State<BriefView> {
                               Icon(Icons.content_copy, size: 16.0, color: Colors.grey),
                               SizedBox(width: 8.0),
                               Text(
-                                snapshot.data![index].context.toString(),
+                                snapshot.data![index].email.toString(),
                                 style: TextStyle(fontSize: 16.0,),
                                 
                               ),
@@ -106,7 +106,7 @@ class _BriefViewState extends State<BriefView> {
                               Icon(Icons.timelapse, size: 16.0, color: Colors.grey),
                               SizedBox(width: 8.0),
                               Text(
-                                snapshot.data![index].deadline.toString(),
+                                snapshot.data![index].promo.toString(),
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ],
@@ -117,7 +117,7 @@ class _BriefViewState extends State<BriefView> {
                               Icon(Icons.email, size: 16.0, color: Colors.grey),
                               SizedBox(width: 8.0),
                               Text(
-                                snapshot.data![index].Creation.toString(),
+                                snapshot.data![index].phone.toString(),
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ],

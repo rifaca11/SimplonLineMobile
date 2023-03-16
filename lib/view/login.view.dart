@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:simplonmobile/utils/global.colors.dart';
+import 'package:simplonmobile/view/splash.view.dart';
 import 'package:simplonmobile/view/widgets/button.global.dart';
 import 'package:simplonmobile/view/widgets/social.login.dart';
 import 'package:simplonmobile/view/widgets/text.form.global.dart';
+import 'package:http/http.dart' as http;
 
 import '../utils/global.size.dart';
 
@@ -10,6 +14,15 @@ class LoginView extends StatelessWidget {
   LoginView({super.key});
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+// method sign in 
+signIn(String email,String password) async{
+        final response = await http.get(Uri.parse("db/apprenant.json?email="+email+"&password="+password));
+        if(response.statusCode == 200 && !(jsonDecode(response.body).isEmpty)){
+                 }
+        else{ return;}
+    }
+
 
   @override
   Widget build(BuildContext context) {

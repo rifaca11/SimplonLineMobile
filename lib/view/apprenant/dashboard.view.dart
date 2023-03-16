@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 import 'package:simplonmobile/utils/global.colors.dart';
 import 'package:simplonmobile/utils/global.size.dart';
 import 'package:simplonmobile/view/apprenant/brief.view.dart';
+import 'package:simplonmobile/view/apprenant/formateur.view.dart';
 import 'package:simplonmobile/view/splash.view.dart';
+
+import 'apprenant.view.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -40,20 +43,35 @@ class _DashboardState extends State<Dashboard> {
               ),
             ListTile(
               leading: Icon(Icons.person),
-              title: Text('Profile'),
+              title: Text('Apprenant'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ApprenantView()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.vpn_key),
-              title: Text('password'),
+              title: Text('Formateur'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FormateurView()),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.info),
-              title: Text('info'),
+              title: Text('Briefs'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BriefView()),
+                );
+              },
             ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('exit'),
-            ),
+           
           ],
         ),
       ),
@@ -66,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
             onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BriefView()),
+                  MaterialPageRoute(builder: (context) => FormateurView()),
                 );
               },),
             MyMenu(
@@ -82,19 +100,14 @@ class _DashboardState extends State<Dashboard> {
           ),
 
             MyMenu(title: "Apprenant",icon: Icons.person_2,warna:Colors.red,
+    
             onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => BriefView()),
+                  MaterialPageRoute(builder: (context) => ApprenantView()),
                 );
-              },),
-            MyMenu(title: "Profil",icon: Icons.settings,warna:Colors.red,
-            onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BriefView()),
-                );
-              },),
+              },
+              ),
           ],
         ),
       ),

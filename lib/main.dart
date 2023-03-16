@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:simplonmobile/entity/brief.dart';
 import 'package:simplonmobile/utils/global.routes.dart';
 import 'package:simplonmobile/utils/global.size.dart';
+import 'package:simplonmobile/view/apprenant/apprenant.view.dart';
 import 'package:simplonmobile/view/apprenant/brief.view.dart';
 import 'package:simplonmobile/view/apprenant/dashboard.view.dart';
+import 'package:simplonmobile/view/apprenant/formateur.view.dart';
 import 'package:simplonmobile/view/splash.view.dart';
 
 void main() => runApp(const MyApp());
@@ -26,6 +28,10 @@ class MyApp extends StatelessWidget {
         GlobalRoutes.DashboardView: (context) => Dashboard(),
         GlobalRoutes.SplashView: (context) => SplashView(),
         GlobalRoutes.BriefView: (context) => BriefView(),
+        GlobalRoutes.FormateurView: (context) => FormateurView(),
+        GlobalRoutes.ApprenantView: (context) => ApprenantView(),
+
+
       },
     );
   }

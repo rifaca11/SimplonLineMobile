@@ -1,26 +1,26 @@
 class BriefModel {
   String? id;
   String? titre;
-  String? contexte;
+  String? context;
   String? deadline;
-  String? date;
+  String? Creation;
   String? image;
 
   BriefModel({
     this.id,
     this.titre,
-    this.contexte,
+    this.context,
     this.deadline,
-    this.date,
+    this.Creation,
     this.image,
   });
 
   factory BriefModel.fromJson(Map<String, dynamic> json) => BriefModel(
         id: json["id"],
         titre: json["titre"],
-        contexte: json["contexte"],
+        context: json["context"],
         deadline: json["deadline"],
-        date: json["date"],
+        Creation: json["Creation"],
         image: json["image"],
       );
 }
